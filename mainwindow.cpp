@@ -6,6 +6,7 @@
 #include <QMimeDatabase>
 #include <QFileDialog>
 #include <QStandardPaths>
+#include <QMimeData>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -17,6 +18,7 @@ MainWindow::MainWindow(QWidget *parent) :
 }
 
 void MainWindow::initUI(){
+    setAcceptDrops(true);
     QList<QString> kinds;
     kinds<<"Application"<<"Link";
     foreach(QString kind,kinds ){
@@ -31,6 +33,11 @@ void MainWindow::initUI(){
     connect(ui->iconFileButton,&QPushButton::clicked,this,&MainWindow::chooseIconFile);
     connect(ui->execButton,&QPushButton::clicked,this,&MainWindow::chooseAppFile);
     connect(ui->createButton,&QPushButton::clicked,this,&MainWindow::onCreate);
+    ui->name->setAcceptDrops(false);
+    ui->genericName->setAcceptDrops(false);
+    ui->comment->setAcceptDrops(false);
+    ui->iconFile->setAcceptDrops(false);
+    ui->exec->setAcceptDrops(false);
 
 }
 MainWindow::~MainWindow()
@@ -39,6 +46,25 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
+void MainWindow::dragEnterEvent(QDragEnterEvent *event){
+
+    if(event->mimeData()->hasFormat("text/uri-list")){
+        event->acceptProposedAction();
+    }else{
+        event->ignore();
+    }
+}
+void MainWindow::dropEvent(QDropEvent* event){
+
+    auto urls=event->mimeData()->urls();
+
+    if(urls.isEmpty())
+        return ;
+
+    QString fileName = urls.first().toLocalFile();
+    handleDropFile(fileName);
+
+}
 void MainWindow::chooseIconFile(){
     auto path=QStandardPaths::writableLocation(QStandardPaths::DownloadLocation);
     QString iconFile=QFileDialog::getOpenFileName(this,tr("tr_image_caption"),path,tr("Images (*.png *.xpm *.jpg)"));
@@ -175,3 +201,23 @@ bool MainWindow::writeEntryFile(const QMap<QString,QString>& entries,const QStri
 
     return false;
 }
+
+void MainWindow::handleDropFile(const QString& filename){
+    if(isImageFile(filename)){
+        ui->iconFile->setText(filename);
+    }else{
+        QFileInfo file(filename);
+        ui->name->clear();
+        ui->name->setText(file.baseName());
+        ui->exec->clear();
+        ui->exec->setText(filename);
+        ui->genericName->clear();
+        ui->genericName->setText(file.fileName());
+        ui->comment->clear();
+        ui->kinds->setCurrentIndex(0);
+        ui->terminal->setCheckState(Qt::Unchecked);
+        ui->notify->setCheckState(Qt::Unchecked);
+    }
+
+}
+

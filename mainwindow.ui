@@ -13,6 +13,10 @@
   <property name="windowTitle">
    <string>Desktop Entry Maker</string>
   </property>
+  <property name="windowIcon">
+   <iconset resource="maires.qrc">
+    <normaloff>:/icons/macos.png</normaloff>:/icons/macos.png</iconset>
+  </property>
   <widget class="QWidget" name="centralWidget">
    <layout class="QVBoxLayout" name="verticalLayout">
     <item>
@@ -204,6 +208,8 @@
   </widget>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
- <resources/>
+ <resources>
+  <include location="maires.qrc"/>
+ </resources>
  <connections/>
 </ui>
