@@ -1,2 +1,2 @@
 # idesktop
-a utility tool to create desktop  entry file on linux
+idesktop is a utility tool to create desktop  entry file on gnome.
