@@ -2,4 +2,7 @@
     <qresource prefix="/icons">
         <file>macos.png</file>
     </qresource>
+    <qresource prefix="/trans/zh">
+        <file>zh_CN.qm</file>
+    </qresource>
 </RCC>

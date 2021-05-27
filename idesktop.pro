@@ -24,6 +24,8 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 CONFIG += c++11
 
+CONFIG+=sdk_no_version_check
+
 SOURCES += \
         main.cpp \
         mainwindow.cpp
@@ -35,6 +37,9 @@ FORMS += \
         mainwindow.ui
 
 RC_ICONS=app.ico
+
+TRANSLATIONS += \
+        zh_CN.ts
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
