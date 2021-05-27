@@ -1,10 +1,6 @@
 #include "mainwindow.h"
 #include <QApplication>
 #include <QTranslator>
-#include <QFile>
-#include <QMessageBox>
-#include <QDebug>
-
 int main(int argc, char *argv[])
 {
     QApplication app(argc, argv);
